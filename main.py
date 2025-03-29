@@ -27,6 +27,7 @@ def main():
                 return
 
         screen.fill((0, 0, 0))
+        player.update(delta_time)
         player.draw(screen)
         pygame.display.flip()
 
