@@ -30,10 +30,8 @@ class Player(CircleShape):
         self.position += direction * PLAYER_SPEED * dt
 
     def update(self, delta_time):
-        self.shoot_cooldown -= delta_time
-        # Prevent underflow
-        if self.shoot_cooldown < -1000:
-            self.shoot_cooldown = 0
+        if self.shoot_cooldown > 0:
+            self.shoot_cooldown -= delta_time
 
         keys = pygame.key.get_pressed()
 
