@@ -1,6 +1,8 @@
 import pygame
 from constants import *
 from player import Player
+from asteroid import Asteroid
+from asteroidfield import AsteroidField
 
 
 def main():
@@ -19,13 +21,17 @@ def main():
 
     updatable = pygame.sprite.Group()
     drawable = pygame.sprite.Group()
-    # Automatically adds all new Player objects to these groups
-    # It works because Player inherits from Sprite, which checks this variable
+    asteroids = pygame.sprite.Group()
+    # Ensure that all new objects are automatically added to these groups upon creation.
+    # This works because the Sprite constructor uses `containers` if available
     Player.containers = (updatable, drawable)
+    Asteroid.containers = (updatable, drawable, asteroids)
+    AsteroidField.containers = updatable
 
     x = SCREEN_WIDTH / 2
     y = SCREEN_HEIGHT / 2
     player = Player(x, y)
+    asteroids_generator = AsteroidField()
 
     while True:
         for event in pygame.event.get():
