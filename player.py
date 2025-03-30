@@ -1,12 +1,13 @@
 import pygame
 from circleshape import CircleShape
-from constants import PLAYER_RADIUS, PLAYER_TURN_SPEED, PLAYER_SPEED
-
+from constants import *
+from shot import Shot
 
 class Player(CircleShape):
     def __init__(self, x, y):
         super().__init__(x, y, PLAYER_RADIUS)
         self.rotation = 0
+        self.shoot_cooldown = 0
 
     def triangle(self) -> list[pygame.Vector2]:
         """Generates a list of three vertices."""
@@ -29,6 +30,11 @@ class Player(CircleShape):
         self.position += direction * PLAYER_SPEED * dt
 
     def update(self, delta_time):
+        self.shoot_cooldown -= delta_time
+        # Prevent underflow
+        if self.shoot_cooldown < -1000:
+            self.shoot_cooldown = 0
+
         keys = pygame.key.get_pressed()
 
         if keys[pygame.K_a]:
@@ -39,4 +45,11 @@ class Player(CircleShape):
             self.move(delta_time)
         if keys[pygame.K_s]:
             self.move(-delta_time)
-            pass
+        if keys[pygame.K_SPACE]:
+            if self.shoot_cooldown <= 0:
+                self.shoot()
+
+    def shoot(self):
+        self.shoot_cooldown = PLAYER_SHOOT_COOLDOWN
+        shot = Shot(self.position.x, self.position.y, SHOT_RADIUS)
+        shot.velocity = pygame.Vector2(0, 1).rotate(self.rotation) * PLAYER_SHOOT_SPEED
