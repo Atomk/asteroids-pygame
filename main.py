@@ -5,7 +5,7 @@ from player import Player
 from asteroid import Asteroid
 from asteroidfield import AsteroidField
 from shot import Shot
-
+from text import Text
 
 def main():
     numpass, numfail = pygame.init()
@@ -36,6 +36,15 @@ def main():
     y = SCREEN_HEIGHT / 2
     player = Player(x, y)
     asteroids_generator = AsteroidField()
+    score = 0
+
+    text_score_label = Text("Score: ")
+    text_score_label.rect.left = 50
+    text_score_label.rect.top = 50
+
+    text_score_val = Text(str(score))
+    text_score_val.rect.left = text_score_label.rect.right + 10
+    text_score_val.rect.top = text_score_label.rect.top
 
     while True:
         for event in pygame.event.get():
@@ -44,13 +53,19 @@ def main():
 
         screen.fill((0, 0, 0))
 
+        text_score_label.draw(screen)
+        text_score_val.draw(screen)
+
         updatable.update(delta_time)
         for asteroid in asteroids:
             if player.is_colliding(asteroid):
-                print("Game over!")
+                print(f"Game over! Score: {score}")
                 sys.exit()
             for shot in shots:
                 if shot.is_colliding(asteroid):
+                    #print(f"Destroyed asteroid, radius: {asteroid.radius}, points: {asteroid.get_points()}")
+                    score += asteroid.get_points()
+                    text_score_val.update_string(str(score))
                     shot.kill()
                     asteroid.split()
         for entity in drawable:
