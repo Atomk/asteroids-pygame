@@ -12,10 +12,10 @@ class CircleShape(pygame.sprite.Sprite):
         self.radius = radius
 
     def draw(self, screen):
-        pass
+        raise NotImplementedError("Child classes must override this method.")
 
     def update(self, delta_time):
-        pass
+        raise NotImplementedError("Child classes must override this method.")
 
     def is_colliding(self, other):
         distance = self.position.distance_to(other.position)
