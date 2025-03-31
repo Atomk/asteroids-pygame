@@ -35,6 +35,7 @@ def main():
     x = SCREEN_WIDTH / 2
     y = SCREEN_HEIGHT / 2
     player = Player(x, y)
+    game_paused = False
     asteroids_generator = AsteroidField()
     score = 0
 
@@ -46,30 +47,40 @@ def main():
     text_score_val.rect.left = text_score_label.rect.right + 10
     text_score_val.rect.top = text_score_label.rect.top
 
+    text_paused = Text("PAUSED")
+    text_paused.rect.center = (SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2)
+
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_p:
+                    game_paused = not game_paused
 
         screen.fill((0, 0, 0))
 
-        text_score_label.draw(screen)
-        text_score_val.draw(screen)
+        if not game_paused:
+            updatable.update(delta_time)
+            for asteroid in asteroids:
+                if player.is_colliding(asteroid):
+                    print(f"Game over! Score: {score}")
+                    sys.exit()
+                for shot in shots:
+                    if shot.is_colliding(asteroid):
+                        #print(f"Destroyed asteroid, radius: {asteroid.radius}, points: {asteroid.get_points()}")
+                        score += asteroid.get_points()
+                        text_score_val.update_string(str(score))
+                        shot.kill()
+                        asteroid.split()
 
-        updatable.update(delta_time)
-        for asteroid in asteroids:
-            if player.is_colliding(asteroid):
-                print(f"Game over! Score: {score}")
-                sys.exit()
-            for shot in shots:
-                if shot.is_colliding(asteroid):
-                    #print(f"Destroyed asteroid, radius: {asteroid.radius}, points: {asteroid.get_points()}")
-                    score += asteroid.get_points()
-                    text_score_val.update_string(str(score))
-                    shot.kill()
-                    asteroid.split()
         for entity in drawable:
             entity.draw(screen)
+
+        text_score_label.draw(screen)
+        text_score_val.draw(screen)
+        if game_paused:
+            text_paused.draw(screen)
 
         pygame.display.flip()
 
