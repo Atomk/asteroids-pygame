@@ -6,7 +6,7 @@ from shot import Shot
 class Player(CircleShape):
     def __init__(self, x, y):
         super().__init__(x, y, PLAYER_RADIUS)
-        self.rotation = 0
+        self.rotation = 180
         self.shoot_cooldown = 0
 
     def triangle(self) -> list[pygame.Vector2]:
@@ -35,14 +35,13 @@ class Player(CircleShape):
 
         keys = pygame.key.get_pressed()
 
-        if keys[pygame.K_a]:
+        if keys[pygame.K_a] or keys[pygame.K_LEFT]:
             self.rotate(-delta_time)
-        if keys[pygame.K_d]:
+        if keys[pygame.K_d] or keys[pygame.K_RIGHT]:
             self.rotate(delta_time)
-        if keys[pygame.K_w]:
+        if keys[pygame.K_w] or keys[pygame.K_UP]:
             self.move(delta_time)
-        if keys[pygame.K_s]:
-            self.move(-delta_time)
+
         if keys[pygame.K_SPACE]:
             if self.shoot_cooldown <= 0:
                 self.shoot()
