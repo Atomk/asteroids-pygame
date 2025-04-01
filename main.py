@@ -47,6 +47,10 @@ def main():
     text_score_val.rect.left = text_score_label.rect.right + 10
     text_score_val.rect.top = text_score_label.rect.top
 
+    pause_overlay = pygame.Surface((SCREEN_WIDTH, SCREEN_HEIGHT))
+    pause_overlay.set_alpha(128)
+    pause_overlay.fill("black")
+
     text_paused = Text("PAUSED")
     text_paused.rect.center = (SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2)
 
@@ -79,7 +83,9 @@ def main():
 
         text_score_label.draw(screen)
         text_score_val.draw(screen)
+
         if game_paused:
+            screen.blit(pause_overlay, (0, 0))
             text_paused.draw(screen)
 
         pygame.display.flip()
