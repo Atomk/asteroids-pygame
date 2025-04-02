@@ -1,17 +1,36 @@
 import pygame
 import random
+import math
 from circleshape import CircleShape
 from constants import ASTEROID_MIN_RADIUS, ASTEROID_MAX_RADIUS
 
 class Asteroid(CircleShape):
     def __init__(self, x, y, radius):
         super().__init__(x, y, radius)
+        self.vertices = self.generate_vertices()
+
+    def generate_vertices(self):
+        vertices = []
+        angle = 0
+        while angle < 360:
+            direction = pygame.Vector2(
+                math.sin(math.radians(angle)),
+                math.cos(math.radians(angle)),
+            )
+            scale = self.radius * random.uniform(0.8, 1.05)
+            vertices.append(self.position + direction * scale)
+            angle += random.uniform(30, 45)
+        return vertices
 
     def draw(self, screen):
-        pygame.draw.circle(screen, "white", self.position, self.radius, 2)
+        #pygame.draw.circle(screen, "white", self.position, self.radius, 2)
+        pygame.draw.polygon(screen, "white", self.vertices, 2)
 
     def update(self, delta_time):
-        self.position += self.velocity * delta_time
+        offset = self.velocity * delta_time
+        self.position += offset
+        for vert in self.vertices:
+            vert += offset
 
     def split(self):
         self.kill()
