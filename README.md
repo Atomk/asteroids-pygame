@@ -2,7 +2,9 @@
 
 An Asteroids clone made with Pygame.
 
-Second Python project in the [Boot.dev](https://www.boot.dev/) curriculum.
+Uses Python 3.12, not guaranteed to work with previous versions.
+
+This is the second Python project in [Boot.dev](https://www.boot.dev/)'s curriculum.
 
 ## Setup
 
@@ -14,8 +16,8 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-#### Windows (Powershell)
-Like above, but instead of the `source` command run `venv\Scripts\Activate.ps1`.
+#### Windows
+Like above, but instead of the `source` command run `venv\Scripts\Activate.ps1` in a PowerShell terminal.
 
 ## Run
 
@@ -24,7 +26,9 @@ python3 main.py
 ```
 
 ## How to play
-- `W`, `A`, `S`, `D` = move and steer the spaceship
+- `W`, `A`, `D` or arrow keys = move and steer the spaceship
 - `space` = shoot
+- `Esc` or `P` = pause
+- `F1` = debug mode (show colliders)
 
 Game ends when the spaceship collides with an asteroid.
