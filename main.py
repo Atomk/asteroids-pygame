@@ -61,6 +61,9 @@ def main():
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_p or event.key == pygame.K_ESCAPE:
                     game_paused = not game_paused
+                elif event.key == pygame.K_F1:
+                    Asteroid.debug = not Asteroid.debug
+                    Player.debug = not Player.debug
 
         screen.fill((0, 0, 0))
 

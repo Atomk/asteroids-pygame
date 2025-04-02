@@ -5,6 +5,8 @@ from circleshape import CircleShape
 from constants import ASTEROID_MIN_RADIUS, ASTEROID_MAX_RADIUS
 
 class Asteroid(CircleShape):
+    debug = False
+
     def __init__(self, x, y, radius):
         super().__init__(x, y, radius)
         self.vertices = self.generate_vertices()
@@ -23,7 +25,8 @@ class Asteroid(CircleShape):
         return vertices
 
     def draw(self, screen):
-        #pygame.draw.circle(screen, "white", self.position, self.radius, 2)
+        if self.debug:
+            self.draw_collider(screen)
         pygame.draw.polygon(screen, "white", self.vertices, 2)
 
     def update(self, delta_time):

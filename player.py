@@ -4,6 +4,8 @@ from constants import *
 from shot import Shot
 
 class Player(CircleShape):
+    debug = False
+
     def __init__(self, x, y):
         super().__init__(x, y, PLAYER_RADIUS)
         self.rotation = 180
@@ -19,6 +21,8 @@ class Player(CircleShape):
         return [a, b, c]
 
     def draw(self, screen):
+        if self.debug:
+            self.draw_collider(screen)
         # TODO do not regenerate the list every frame, only when needed. COuld also use a tuple
         pygame.draw.polygon(screen, "white", self.triangle(), 2)
 
