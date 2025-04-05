@@ -4,7 +4,7 @@ import pygame
 pygame.font.init()
 
 default_font = pygame.font.get_default_font()
-font = pygame.font.Font(default_font, 32)
+font = pygame.font.Font(default_font, 28)
 #font = pygame.font.SysFont("Arial", 32)
 
 
