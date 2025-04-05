@@ -10,6 +10,7 @@ class Player(CircleShape):
         super().__init__(x, y, PLAYER_RADIUS)
         self.rotation = 180
         self.shoot_cooldown = 0
+        self.force = pygame.Vector2(0, 0)
 
     def triangle(self) -> list[pygame.Vector2]:
         """Generates a list of three vertices."""
@@ -30,12 +31,15 @@ class Player(CircleShape):
         self.rotation += PLAYER_TURN_SPEED * dt
 
     def move(self, dt):
-        direction = pygame.Vector2(0, 1).rotate(self.rotation)
-        self.position += direction * PLAYER_SPEED * dt
+        self.position += self.force
 
     def update(self, delta_time):
         if self.shoot_cooldown > 0:
             self.shoot_cooldown -= delta_time
+
+        # drag
+        # TODO decouple from framerate
+        self.force *= 0.97
 
         keys = pygame.key.get_pressed()
 
@@ -43,8 +47,14 @@ class Player(CircleShape):
             self.rotate(-delta_time)
         if keys[pygame.K_d] or keys[pygame.K_RIGHT]:
             self.rotate(delta_time)
+
         if keys[pygame.K_w] or keys[pygame.K_UP]:
-            self.move(delta_time)
+            direction = pygame.Vector2(0, 1).rotate(self.rotation)
+            self.force += direction * PLAYER_MAX_SPEED * delta_time
+            self.force.normalize()
+
+        # Inertia moves the player even with no input
+        self.move(delta_time)
 
         if keys[pygame.K_SPACE]:
             if self.shoot_cooldown <= 0:
