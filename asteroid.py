@@ -51,3 +51,14 @@ class Asteroid(CircleShape):
 
     def get_points(self):
         return  20 + ASTEROID_MAX_RADIUS - self.radius
+
+    def outside_allowed_area(self):
+        # The small offset allows asteroid to spawn off-screen
+        # while detecting if they are too far
+        OFFSET = self.radius + 50
+        return not (
+            self.position.x + OFFSET <= 0
+            or self.position.x - OFFSET >= SCREEN_WIDTH
+            or self.position.y + OFFSET <= 0
+            or self.position.y - OFFSET >= SCREEN_HEIGHT
+        )

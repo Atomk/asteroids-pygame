@@ -66,6 +66,9 @@ def main():
         if not game_paused:
             updatable.update(delta_time)
             for asteroid in asteroids:
+                if not asteroid.outside_allowed_area():
+                    asteroid.kill()
+                    continue
                 if player.is_colliding(asteroid):
                     print(f"Game over! Score: {score}")
                     sys.exit()
