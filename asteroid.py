@@ -2,7 +2,12 @@ import pygame
 import random
 import math
 from circleshape import CircleShape
-from constants import ASTEROID_MIN_RADIUS, ASTEROID_MAX_RADIUS
+from constants import (
+    ASTEROID_MIN_RADIUS,
+    ASTEROID_MAX_RADIUS,
+    SCREEN_WIDTH,
+    SCREEN_HEIGHT
+)
 
 class Asteroid(CircleShape):
     debug = False
