@@ -7,6 +7,7 @@ default_font = pygame.font.get_default_font()
 font = pygame.font.Font(default_font, 32)
 #font = pygame.font.SysFont("Arial", 32)
 
+
 class Text:
     def __init__(self, string: str, color="white"):
         self.color = color
@@ -18,3 +19,17 @@ class Text:
 
     def draw(self, screen: pygame.Surface):
         screen.blit(self.texture, self.rect)
+
+
+class LabeledValue(Text):
+    def __init__(self, string: str, default_suffix: str, color="white"):
+        super().__init__(string, color)
+        self.prefix = string
+        self.update_suffix(default_suffix)
+
+    def update_string(self, string: str):
+        self.prefix = string
+        super().update_string(string)
+
+    def update_suffix(self, suffix: str):
+        self.texture = font.render(self.prefix + suffix, True, self.color)
