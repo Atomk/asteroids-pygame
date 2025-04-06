@@ -6,6 +6,8 @@ Uses Python 3.12, not guaranteed to work with previous versions.
 
 This is the second Python project in [Boot.dev](https://www.boot.dev/)'s curriculum.
 
+You can see my additions to the course's main requirements and some other ideas in [TODO.md](./TODO.md)
+
 ## Setup
 
 #### Linux, WSL, Mac
